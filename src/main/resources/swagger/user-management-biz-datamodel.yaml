@@ -1,0 +1,35 @@
+swagger: "2.0"
+info:
+  version: '1.0'
+  title: User Management Business Data Models
+  description: Data Model Yaml
+definitions:
+  APIResponseView:
+    properties:
+      statusCode:
+        type: string
+        description: >-
+          Indicates the status of the API response. Value of the status code
+          indicates if it was a success or failure
+          example: '2000000'
+      statusDescription:
+        type: string
+        description: >-
+            Defines the status of the API response. Status Description provides
+            more information on the status
+        example: SUCCESS
+      severity:
+        type: string
+        description: >-
+            Defines the severity of the API response in case of error response. 
+            Possible values can be INFORMATION, WARNING, ERROR, CRITICAL
+        example: INFORMATION
+  UserCreditRequest:
+    description: 'User Credit Request Object'
+    properties:
+      id:
+        type: string
+        description: User Id
+      name:
+        type: string
+        description: User Name

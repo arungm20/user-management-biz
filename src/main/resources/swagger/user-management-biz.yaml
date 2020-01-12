@@ -1,0 +1,150 @@
+swagger: "2.0"
+info:
+  version: '1.0'
+  title: User Management Business App
+  description: This App exposes API to manage user's credit check and sned notifications upon computation
+schemes:
+  - http
+basePath: /biz/user-management/
+paths:
+  /v1/user-credit:
+    x-rest-classname: UserManagementV1
+    post:
+      tags:
+      - User Management
+      summary: API to send Request to Credit Check System to retrieve credit score asynchronously 
+      operationId: userCredit
+      description: Invoke user credit system for given id and name
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: header
+          name: MWMD-requestTimestamp
+          description: >-
+            Indicates the time at which request was created in milliseconds
+          required: true
+          type: string
+        - in: header
+          name: MWMD-activityName
+          description: >-
+            Identifies the name of the business activity for the message being
+            exchanged.
+            For MYUPC channel, this should be provided as "CustomerCare"
+          required: true
+          type: string
+        - in: header
+          name: MWMD-requestID
+          description: >-
+            RequestID is a unique identifier that is unique for a single
+            request/response message and will be used to map log and error
+            message to consumer’s request.
+          required: true
+          type: string
+        - in: body
+          name: resource
+          description: >-
+            Represents  Resource entity
+          required: true
+          schema:
+            $ref: '#/definitions/UserCreditRequest'    
+      responses:
+        202:
+          description: Accepted
+        400:
+          description: Bad Request
+        409:
+          description: Already Queued
+        500:
+          description: Internal Server Error
+        552:
+          description: External System Connection error
+  /v1/user-credit-response:
+    post:
+      tags:
+      - User Management
+      summary: API to receive the credit score from Credit Check System
+      operationId: userCreditResponse
+      description: Receives Validated User Credit Response from System
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: header
+          name: MWMD-requestTimestamp
+          description: >-
+            Indicates the time at which request was created in milliseconds
+          required: true
+          type: string
+        - in: header
+          name: MWMD-activityName
+          description: >-
+            Identifies the name of the business activity for the message being
+            exchanged.
+            For MYUPC channel, this should be provided as "CustomerCare"
+          required: true
+          type: string
+        - in: header
+          name: MWMD-requestID
+          description: >-
+            RequestID is a unique identifier that is unique for a single
+            request/response message and will be used to map log and error
+            message to consumer’s request.
+          required: true
+          type: string
+        - in: body
+          name: creditCheckResponse
+          description: >-
+            Represents  Credit Check Response
+          required: true
+          schema:
+            $ref: '#/definitions/UserCreditResponse'          
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Bad Request
+definitions:
+  APIResponseView:
+    properties:
+      statusCode:
+        type: string
+        description: >-
+          Indicates the status of the API response. Value of the status code
+          indicates if it was a success or failure
+          example: '2000000'
+      statusDescription:
+        type: string
+        description: >-
+            Defines the status of the API response. Status Description provides
+            more information on the status
+        example: SUCCESS
+      severity:
+        type: string
+        description: >-
+            Defines the severity of the API response in case of error response. 
+            Possible values can be INFORMATION, WARNING, ERROR, CRITICAL
+        example: INFORMATION
+  UserCreditRequest:
+    description: 'User Credit Request Object'
+    properties:
+      id:
+        type: string
+        description: User Id
+      name:
+        type: string
+        description: User Name
+  UserCreditResponse:
+    description: 'User Credit Response Object'
+    properties:
+      id:
+        type: string
+        description: User Id
+      name:
+        type: string
+        description: User Name 
+      score:
+        type: string
+        description: Credit Score of the user          

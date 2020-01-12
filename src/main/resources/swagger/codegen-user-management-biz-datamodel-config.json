@@ -1,0 +1,19 @@
+{
+
+  "language": "spring",
+  
+  "apiPackage":"com.infosys.fs.rest",
+  "invokerPackage":"com.infosys.fs",
+  "basePackage":"com.infosys.fs",
+  "configPackage":"com.infosys.fs.config",
+  "modelPackage":"com.infosys.fs.model",
+  
+  "interfaceOnly":"false",
+  
+  "generateSupportingFiles": "true",
+  "generateModelDocumentation": "true",
+  "generateApiDocumentation": "false",
+  "generateModels": "true",
+  "generateApis": "false"
+  
+}

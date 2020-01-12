@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="container" style="padding-left: 26%;">
+
+        <div class="page-header">
+            <h1>Credit Check Application</h1>
+        </div>
+        <div>
+		User Id    :   <input id="userId" type="text" name="userId"><br>
+    	<br>
+  	    User Name  :   <input id="userName" type="text" name="userName"><br>
+  		<br>
+  		<button onclick="submitForProcessing()">Submit</button>
+  		</div>
+		<div>
+		<br>
+		<h3 id="successBanner">Data Submitted for Processing</h3>
+		<br>
+		<h3 id="errorBanner">Error in submitting Data</h3>
+		<br>
+		</div>
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="panel panel-default" th:fragment="listUserData" id="listUserData">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="kafka-messages">
+                                <thead>
+                                    <tr>
+                                        <th>User Data(ID | NAME | Score)</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+	<script>
+			$('#successBanner').hide();
+			$('#errorBanner').hide();
+	</script>
+    <script src="js/jquery.sse.js"></script>
+	<script src="js/admin.js"></script>
+
+</body>
+
+</html>
