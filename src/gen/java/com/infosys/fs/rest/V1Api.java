@@ -5,54 +5,60 @@
  */
 package com.infosys.fs.rest;
 
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.infosys.fs.exception.BadRequestException;
 import com.infosys.fs.exception.ExternalSystemUnavailableException;
 import com.infosys.fs.exception.InternalServerErrorException;
 import com.infosys.fs.model.UserCreditRequest;
 import com.infosys.fs.model.UserCreditResponse;
-import io.swagger.annotations.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-02T10:36:32.149+05:30")
 
 @Api(value = "v1", description = "the v1 API")
+@RequestMapping(value = "/biz/user-management")
+
 public interface V1Api {
-
-    @ApiOperation(value = "API to Validate User and send Request to Credit Check System", nickname = "userCredit", notes = "Validate and invoke user credit system", tags={ "User Management", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 202, message = "Accepted"),
-        @ApiResponse(code = 400, message = "Bad Request"),
-        @ApiResponse(code = 409, message = "Already Queued"),
-        @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 551, message = "Unable to reach Downstream system"),
-        @ApiResponse(code = 552, message = "External System Connection error") })
-    @RequestMapping(value = "/v1/user-credit",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Object> userCredit(@ApiParam(value = "Indicates the time at which request was created. Date format: ISO-8601 format (yyyy-MM-dd'T'HH:mm:ss'Z' or yyyy-MM-dd'T'HH:mm:ss±hh:mm)" ,required=true) @RequestHeader(value="MWMD-requestTimestamp", required=true) String mwMDRequestTimestamp,@ApiParam(value = "Identifies the name of the business activity for the message being exchanged. For MYUPC channel, this should be provided as \"CustomerCare\"" ,required=true) @RequestHeader(value="MWMD-activityName", required=true) String mwMDActivityName,@ApiParam(value = "RequestID is a unique identifier that is unique for a single request/response message and will be used to map log and error message to consumer’s request." ,required=true) @RequestHeader(value="MWMD-requestID", required=true) String mwMDRequestID,@ApiParam(value = "Represents  Resource entity" ,required=true )  @Valid @RequestBody UserCreditRequest resource) throws ExternalSystemUnavailableException, InternalServerErrorException, BadRequestException;
-
-
-    @ApiOperation(value = "API to Validate User and send Request to Credit Check System", nickname = "userCreditResponse", notes = "Receives Validated User Credit Response from System", tags={ "admins", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Ok"),
-        @ApiResponse(code = 400, message = "Bad Request") })
-    @RequestMapping(value = "/v1/user-credit-response",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-	ResponseEntity<Object> userCreditResponse(@ApiParam(value = "Indicates the time at which request was created. Date format: ISO-8601 format (yyyy-MM-dd'T'HH:mm:ss'Z' or yyyy-MM-dd'T'HH:mm:ss±hh:mm)" ,required=true) @RequestHeader(value="MWMD-requestTimestamp", required=true) String mwMDRequestTimestamp,@ApiParam(value = "Identifies the name of the business activity for the message being exchanged. For MYUPC channel, this should be provided as \"CustomerCare\"" ,required=true) @RequestHeader(value="MWMD-activityName", required=true) String mwMDActivityName,@ApiParam(value = "RequestID is a unique identifier that is unique for a single request/response message and will be used to map log and error message to consumer’s request." ,required=true) @RequestHeader(value="MWMD-requestID", required=true) String mwMDRequestID,@ApiParam(value = "Represents  Credit Check Response" ,required=true )  @Valid @RequestBody UserCreditResponse creditCheckResponse) throws ExternalSystemUnavailableException, InternalServerErrorException;
-
+	
+	@ApiOperation(value = "API to Validate User and send Request to Credit Check System", nickname = "userCredit", notes = "Validate and invoke user credit system", tags = {
+			"User Management", })
+	@ApiResponses(value = { @ApiResponse(code = 202, message = "Accepted"),
+			@ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 409, message = "Already Queued"),
+			@ApiResponse(code = 500, message = "Internal Server Error"),
+			@ApiResponse(code = 551, message = "Unable to reach Downstream system"),
+			@ApiResponse(code = 552, message = "External System Connection error") })
+	@RequestMapping(value = "/v1/user-credit", produces = { "application/json" }, consumes = {
+			"application/json" }, method = RequestMethod.POST)
+	ResponseEntity<Object> userCredit(
+			@ApiParam(value = "Indicates the time at which request was created. Date format: ISO-8601 format (yyyy-MM-dd'T'HH:mm:ss'Z' or yyyy-MM-dd'T'HH:mm:ss±hh:mm)", required = true) @RequestHeader(value = "MWMD-requestTimestamp", required = true) String mwMDRequestTimestamp,
+			@ApiParam(value = "Identifies the name of the business activity for the message being exchanged. For MYUPC channel, this should be provided as \"CustomerCare\"", required = true) @RequestHeader(value = "MWMD-activityName", required = true) String mwMDActivityName,
+			@ApiParam(value = "RequestID is a unique identifier that is unique for a single request/response message and will be used to map log and error message to consumer’s request.", required = true) @RequestHeader(value = "MWMD-requestID", required = true) String mwMDRequestID,
+			@ApiParam(value = "Represents  Resource entity", required = true) @Valid @RequestBody UserCreditRequest resource)
+			throws ExternalSystemUnavailableException, InternalServerErrorException, BadRequestException;
+	
+	@ApiOperation(value = "API to Validate User and send Request to Credit Check System", nickname = "userCreditResponse", notes = "Receives Validated User Credit Response from System", tags = {
+			"admins", })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"),
+			@ApiResponse(code = 400, message = "Bad Request") })
+	@RequestMapping(value = "/v1/user-credit-response", produces = { "application/json" }, consumes = {
+			"application/json" }, method = RequestMethod.POST)
+	ResponseEntity<Object> userCreditResponse(
+			@ApiParam(value = "Indicates the time at which request was created. Date format: ISO-8601 format (yyyy-MM-dd'T'HH:mm:ss'Z' or yyyy-MM-dd'T'HH:mm:ss±hh:mm)", required = true) @RequestHeader(value = "MWMD-requestTimestamp", required = true) String mwMDRequestTimestamp,
+			@ApiParam(value = "Identifies the name of the business activity for the message being exchanged. For MYUPC channel, this should be provided as \"CustomerCare\"", required = true) @RequestHeader(value = "MWMD-activityName", required = true) String mwMDActivityName,
+			@ApiParam(value = "RequestID is a unique identifier that is unique for a single request/response message and will be used to map log and error message to consumer’s request.", required = true) @RequestHeader(value = "MWMD-requestID", required = true) String mwMDRequestID,
+			@ApiParam(value = "Represents  Credit Check Response", required = true) @Valid @RequestBody UserCreditResponse creditCheckResponse)
+			throws ExternalSystemUnavailableException, InternalServerErrorException;
+	
 }

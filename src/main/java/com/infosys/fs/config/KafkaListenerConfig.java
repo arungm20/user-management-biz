@@ -10,6 +10,8 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import com.infosys.fs.service.handler.MessageHandler;
+
 @Configuration
 @EnableKafka
 public class KafkaListenerConfig {
@@ -17,14 +19,14 @@ public class KafkaListenerConfig {
 	private static final Logger LOGGER = LoggerFactory.getLogger(KafkaListenerConfig.class);
 	
 	@Autowired
-	private MessageController messageController;
+	private MessageHandler messageHandler;
 
 	@KafkaListener(topics = "credit-score-topic", groupId="group-credit-score-topic")
 	public void listen(String message) {
 
 		LOGGER.info("Received Messasge:  {}", message);
 		
-		SseEmitter latestEm = messageController.getLatestEmitter();
+		SseEmitter latestEm = messageHandler.getLatestEmitter();
 				
 		try {
 			latestEm.send(message);

@@ -30,7 +30,7 @@ function submitForProcessing() {
         console.log("inputData :" + inputData);
 
        $.ajax({
-         url: "http://localhost:8080/biz/user-management/v1/user-credit",
+         url: "http://localhost:8181/biz/user-management/v1/user-credit",
          data: JSON.stringify(inputData),
          type: "POST",
          beforeSend: function(xhr){

@@ -59,13 +59,13 @@ public class UserCreditHandler {
 		
 		if (StringUtils.isBlank(userCreditRequest.getId())) {
 			throw new BadRequestException(StatusCodes.MISSING_MANDATORY_PARAMETER.getStatusCode(),
-					StatusCodes.MISSING_MANDATORY_PARAMETER.getStatusDescription(), Severity.ERROR,"id");
+					StatusCodes.MISSING_MANDATORY_PARAMETER.getStatusDescription(), Severity.ERROR, "id");
 			
 		}
 		
 		if (StringUtils.isBlank(userCreditRequest.getName())) {
 			throw new BadRequestException(StatusCodes.MISSING_MANDATORY_PARAMETER.getStatusCode(),
-					StatusCodes.MISSING_MANDATORY_PARAMETER.getStatusDescription(), Severity.ERROR,"name");
+					StatusCodes.MISSING_MANDATORY_PARAMETER.getStatusDescription(), Severity.ERROR, "name");
 			
 		}
 	}
@@ -78,7 +78,7 @@ public class UserCreditHandler {
 			LOGGER.info("Received Response for id : {} with credit Score : {}", creditCheckResponse.getId(),
 					creditCheckResponse.getScore());
 			notificationService.send(creditCheckResponse.getId() + " | " + creditCheckResponse.getName() + " | "
-					+ creditCheckResponse.getScore());
+					+ evaluateCreditScore(creditCheckResponse.getScore()));
 			APIResponseView apiResponseView = new APIResponseView();
 			apiResponseView.setStatusCode("200");
 			apiResponseView.setStatusDescription("OK");
@@ -91,6 +91,27 @@ public class UserCreditHandler {
 		apiResponseView.setStatusDescription("NOT_FOUND");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponseView);
 		
+	}
+	
+	private String evaluateCreditScore(String creditScore) {
+		
+		if (creditScore.equals("NOT_FOUND")) {
+			return creditScore;
+		}
+		
+		int score = Integer.parseInt(creditScore);
+		
+		if (score < 579) {
+			return creditScore + " | VERY POOR";
+		} else if (score < 669) {
+			return creditScore + " | FAIR";
+		} else if (score < 739) {
+			return creditScore + " | GOOD";
+		} else if (score < 799) {
+			return creditScore + " | VERY GOOD";
+		} else {
+			return creditScore + " | EXCELLENT";
+		}
 	}
 	
 }

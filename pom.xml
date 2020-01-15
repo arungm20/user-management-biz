@@ -115,6 +115,7 @@
 			<artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
 		</dependency>
 
+
 		<!-- Micormeter core dependecy -->
 		<dependency>
 			<groupId>io.micrometer</groupId>
